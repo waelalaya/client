@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import {Route, Routes}from 'react-router-dom'
+import Signup from './Components/Signup/Signup.js';
+import Dashbord from './Components/Dashbord/Dashbord';
+import PrivateRoute from './Components/router/PrivateRoute';
+import { useDispatch } from 'react-redux';
+import { current } from './JS/actions/user';
+import { useEffect } from 'react';
+import Navbar from './Components/Navbar/Navbar';
 
 function App() {
+  const dispatch=useDispatch();
+  useEffect(() => {
+   dispatch(current) 
+  }, []);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+   <Navbar/>
+     <Routes>
+      <Route  path='/signup' element={<Signup/>}/>
+      <Route element={<PrivateRoute/>}>
+        <Route path="/dashbord" element={<Dashbord/>}/>
+        
+      </Route>
+    </Routes>
     </div>
   );
 }
